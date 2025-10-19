@@ -32,3 +32,25 @@ jobs:
         with:
           go-version-file: go.mod
       - run: go test ./...
+
+  release:
+    if: github.event_name == 'push'
+    needs: test
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - id: semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn add semantic-release
+          yarn run semantic-release
