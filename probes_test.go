@@ -55,7 +55,7 @@ func TestReadyz(t *testing.T) {
 		assert.Equal(c, http.StatusServiceUnavailable, resp.Result().StatusCode)
 
 		body, err := io.ReadAll(resp.Result().Body)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"status":503,"title":"Service Unavailable","detail":"The server is shutting down and does not accept new connections."}`, string(body))
+		assert.NoError(c, err)
+		assert.Equal(c, `{"status":503,"title":"Service Unavailable","detail":"The server is shutting down and does not accept new connections."}`, string(body))
 	}, 1*time.Second, 100*time.Millisecond)
 }
